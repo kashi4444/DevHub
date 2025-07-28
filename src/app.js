@@ -1,14 +1,35 @@
-//server is created
+//create server
 const express = require('express');
-
-//new app created
+const connectDB = require("./config/database");
+const User = require("./models/user");
+//create app
 const app = express();
 
-app.get("/user/:userId/:name/:password", (req, res)=>{
-    console.log(req.params);
-    res.send("Got it");
+app.post("/signup", async(req,res)=>{
+    //create instance 
+    const user = new User({
+        firstName: "Sunil",
+        lastName :"Kohli",
+        email:"Virat@ag.com",
+        password:"Virat@123",
+        _id: "123"
+    })
+    try{
+        user.save();
+        res.send("User Added Successfully");
+    }catch(err){
+        res.status(400).send("Error in saving the message: "+ err.message);
+    }
+    
+})
+
+
+connectDB().then(() => {
+    console.log("Database connected successfully");
+    app.listen((7777), ()=>{
+        console.log("Server is listening at port 7777");
+    })
+}).catch((err) => {
+    console.log("Database cannot be connected");
 });
-//app is listening or running on port 3000
-app.listen(7777, ()=>{
-    console.log("Server is successfully listening on port 7777..");
-});
+
