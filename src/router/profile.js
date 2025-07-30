@@ -80,4 +80,6 @@ profileRouter.patch("/profile/changePassword", UserAuth, async(req, res)=>{
 
 
 })
+
+//find code for forgot password using chatgpt
 module.exports = profileRouter;
