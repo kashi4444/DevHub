@@ -21,3 +21,10 @@
 -GET /user/feed - Gets you the profile of other users on platform 
 
 Status : ignore, interested, accepted, rejected
+
+
+/feed?page=1&limit=10 => .skip(0) & .limit(10)
+
+/feed?page=2&limit=10 => .skip(10) & .limit(10)
+
+/feed?page=3&limit=10 => .skip(20) & .limit(10)
