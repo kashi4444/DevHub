@@ -25,7 +25,7 @@ userRouter.get("/user/requests/received", UserAuth, async(req,res)=>{
     }
 })
 
-userRouter.get("/user/connnections", UserAuth, async(req, res)=>{
+userRouter.get("/user/connections", UserAuth, async(req, res)=>{
     try{
         const loggedInUser = req.user;
 

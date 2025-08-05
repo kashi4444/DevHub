@@ -21,10 +21,16 @@ authRouter.post("/signup", async(req,res)=>{
             password : passwordHash
         });
         //save in DB
-        await user.save();
+        const savedUser = await user.save();
+        const token = await savedUser.getJWT();
+        res.cookie("token", token, {
+            expires: new Date(Date.now() + 8 * 3000000)
+        })
 
         //send response
-        res.send("User Added Successfully");
+        res.json({message: "User Added Successfully",
+            data : savedUser
+        });
     }catch(err){ 
         res.status(400).send("ERROR: "+ err.message);
     }
@@ -39,7 +45,7 @@ authRouter.post("/login", async(req,res)=>{
         //find User
         const user = await User.findOne({email: email});
         if(!user){
-            throw new Error("User is not in DB");
+            throw new Error("Invalid Credentials");
         }
 
         //check password correct or not
@@ -52,9 +58,9 @@ authRouter.post("/login", async(req,res)=>{
             res.cookie("token", token, {expires: new Date(Date.now() + 8 * 60 * 60* 1000)});
 
             //send response
-            res.send("LoggedIn Successfull");
+            res.json({message : "LoggedIn Successfull", data : user})
         }else{
-            throw new Error("Password is incorrect");
+            throw new Error("Invalid Credentials");
         }
     }catch(err){ 
         res.status(400).send("ERROR: "+ err.message);
